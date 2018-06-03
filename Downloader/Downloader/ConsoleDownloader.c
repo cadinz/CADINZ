@@ -80,7 +80,7 @@ int main(){
 	puts("    :@%***#@*   =@%+=+##         .#*%@.   .@=  .@=     @+");
 	puts("      .:::         :::            ::       .    .      .");
 	puts("============================================================");
-	char cmdUrl[] = "https://raw.githubusercontent.com/cadinz/CADINZ/master/C-Project/Downloader/command";
+	char cmdUrl[] = "https://raw.githubusercontent.com/cadinz/CDowner/master/Downloader/command";
 	char cmdFileName[] = "command.txt";
 
 	puts("필요한 파일을 다운로드합니다.");
