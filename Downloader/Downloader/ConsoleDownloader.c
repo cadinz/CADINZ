@@ -2,15 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define MAX_LINE 512
 
-int FileDownload(char *downLoadUrl , char *filename){
+
+int FileDownload(char *urlurl, char *filename){
 	char url[MAX_LINE];
 	char destination[MAX_LINE];
 	char buffer[MAX_LINE];
 
-	strcpy(url, downLoadUrl);
+	strcpy(url, urlurl);
 	strcpy(destination, filename);
 	HRESULT    dl;
 
@@ -56,7 +58,7 @@ int FileDownload(char *downLoadUrl , char *filename){
 
 int count_file_line(char *filename) {
 	FILE *fp;
-	int count = 0;
+	int count = 1;
 	char c;
 
 	fp = fopen(filename, "r");
@@ -77,10 +79,9 @@ int count_file_line(char *filename) {
 
 typedef struct UrlData{
 
-	char *name;
-	char *filename;
-	char *url;
-	int data;
+	char name[50];
+	char filename[50];
+	char url[100];
 	
 }URLDATA;
 
@@ -93,7 +94,7 @@ void printUsage(){
 	printf("\tjin download [name]\n");
 }
 
-void insert_urldata(URLDATA *urldata,int index) {
+void insert_urldata(URLDATA *urldata) {
 
 	FILE *fp;
 	char s[1000];
@@ -103,22 +104,16 @@ void insert_urldata(URLDATA *urldata,int index) {
 	while(!feof(fp))
 	{
 		fgets(s, 1000, fp);
-
 		char *ptr = strtok(s, " ");      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
-
 			
-			strcpy(&(urldata[i].name), ptr);
-			printf("%s \n", &(urldata[i].name));
-			ptr = strtok(NULL, " ");
-			
-			strcpy(&(urldata[i].filename), ptr);
-			printf("%s \n", &(urldata[i].filename));
-			ptr = strtok(NULL, " ");
+			strcpy(urldata[i].name, ptr);
 
-			strcpy(&(urldata[i].url), ptr);
-			printf("%s \n", &(urldata[i].url));
+			ptr = strtok(NULL, " ");
+			strcpy(urldata[i].filename, ptr);
 
-			urldata[i].data = i;
+			ptr = strtok(NULL, " ");
+			strcpy(urldata[i].url, ptr);
+
 			i++;
 	}
 
@@ -137,20 +132,20 @@ int main(){
 	puts("    :@%***#@*   =@%+=+##         .#*%@.   .@=  .@=     @+");
 	puts("      .:::         :::            ::       .    .      .");
 	puts("============================================================");
-	char cmdUrl[] = "http://blogattach.naver.net/e87df44f506362d4f8127a427394e39334689808/20180605_191_blogfile/cadinz_1528182778515_BQKr67_txt/command.txt";
+	char cmdUrl[] = "http://imgdb.kr/dJsn.dn";
 	char cmdFileName[] = "command.txt";
-
 	puts("필요한 파일을 다운로드합니다.");
-	FileDownload(cmdUrl, cmdFileName);
+	
+	if (!FileDownload(cmdUrl, cmdFileName)){
+		return 0;
+	}
 
 	int index = count_file_line("command.txt");
 
-	URLDATA *urldata = (URLDATA*)malloc(sizeof(URLDATA)*index);
 
-	insert_urldata(urldata, index);
-	
-	printf("%s \n", &urldata[0].name);
+	URLDATA *urldata = (URLDATA*)malloc(sizeof(URLDATA));
 
+	insert_urldata(urldata);
 
 	char command[100];
 	char *jin = "0", *cmd = "0", *name = "0";
@@ -170,38 +165,47 @@ int main(){
 			printf("\tERROR: UnKnown command : %s \n", jin);
 		}
 
-		if (strcmp(jin, "jin") == 0){
+		if (!strcmp(jin, "jin")){
 
-			if (strcmp(cmd, "-download") == 0)
+			if (!strcmp(cmd, "download"))
 			{
-				if (strcmp(name, "") == 0){
+				if (!strcmp(name, "")){
 					printUsage();
 					printf("\tERROR: UnKnown command : %s \n", jin);
+					return;
+				}
+
+				for (int i = 0; i < index; i++){
+					if (!strcmp(name, urldata[i].name)){
+						FileDownload(urldata[i].url, urldata[i].filename);
+					}
 				}
 			}
 
 
-			if (strcmp(cmd, "-list") == 0)
+			if (!strcmp(cmd, "list"))
 			{
-
+				for (int i = 0; i < index; i++){
+					printf("%s\n", urldata[i].name);
+				}
 			}
 
 
-			if (strcmp(cmd, "-info") == 0)
+			if (!strcmp(cmd, "info"))
 			{
 				puts("Made by Sejin");
 			}
 
-			if (strcmp(cmd, "-update") == 0)
+			if (!strcmp(cmd, "update"))
 			{
 				FileDownload(cmdUrl, cmdFileName);
-				puts("Made by Sejin");
 			}
 
 
 
 
 		}// if jin
+
 
 	}// for
 

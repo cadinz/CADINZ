@@ -1,3 +1,4 @@
 google googleicon.png https://www.google.co.kr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png
 daum daumicon.png https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png
-naver navericon.gif https://s.pstatic.net/static/www/mobile/edit/2017/0324/mobile_184353754426.gif
+naver navericon.png http://newsroom.etomato.com/userfiles/NAVER(5).png
+eclipse eclipse.exe https://www.eclipse.org/downloads/download.php?file=/oomph/epp/oxygen/R2/eclipse-inst-win64.exe&mirror_id=1273
