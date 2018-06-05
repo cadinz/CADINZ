@@ -77,9 +77,10 @@ int count_file_line(char *filename) {
 
 typedef struct UrlData{
 
-	char *url;
-	char *filename;
 	char *name;
+	char *filename;
+	char *url;
+	int data;
 	
 }URLDATA;
 
@@ -92,27 +93,33 @@ void printUsage(){
 	printf("\tjin download [name]\n");
 }
 
-void insert_urldata(URLDATA *urldata, int index) {
+void insert_urldata(URLDATA *urldata,int index) {
 
 	FILE *fp;
-
-	char s[300];
+	char s[1000];
 	int i = 0;
 	fp = fopen("command.txt", "r");  // 파일 열기
 
-	for (;i<index;)  // 파일의 끝이 아니라면
-
+	while(!feof(fp))
 	{
-		printf("출력");
-		fgets(s, 300, fp);
+		fgets(s, 1000, fp);
+
 		char *ptr = strtok(s, " ");      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
-		while (ptr != NULL)               // 자른 문자열이 나오지 않을 때까지 반복
-		{
-			printf("%s", ptr);          // 자른 문자열 출력
-			ptr = strtok(NULL, " ");      // 다음 문자열을 잘라서 포인터를 반환
-		}
-		
-		i++;
+
+			
+			strcpy(&(urldata[i].name), ptr);
+			printf("%s \n", &(urldata[i].name));
+			ptr = strtok(NULL, " ");
+			
+			strcpy(&(urldata[i].filename), ptr);
+			printf("%s \n", &(urldata[i].filename));
+			ptr = strtok(NULL, " ");
+
+			strcpy(&(urldata[i].url), ptr);
+			printf("%s \n", &(urldata[i].url));
+
+			urldata[i].data = i;
+			i++;
 	}
 
 	fclose(fp);
@@ -130,7 +137,7 @@ int main(){
 	puts("    :@%***#@*   =@%+=+##         .#*%@.   .@=  .@=     @+");
 	puts("      .:::         :::            ::       .    .      .");
 	puts("============================================================");
-	char cmdUrl[] = "https://raw.githubusercontent.com/cadinz/CDowner/master/command";
+	char cmdUrl[] = "http://blogattach.naver.net/e87df44f506362d4f8127a427394e39334689808/20180605_191_blogfile/cadinz_1528182778515_BQKr67_txt/command.txt";
 	char cmdFileName[] = "command.txt";
 
 	puts("필요한 파일을 다운로드합니다.");
@@ -140,8 +147,9 @@ int main(){
 
 	URLDATA *urldata = (URLDATA*)malloc(sizeof(URLDATA)*index);
 
-	insert_urldata(urldata,2);
+	insert_urldata(urldata, index);
 	
+	printf("%s \n", &urldata[0].name);
 
 
 	char command[100];
