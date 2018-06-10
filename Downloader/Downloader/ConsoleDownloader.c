@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 #define MAX_LINE 512
 
@@ -103,16 +102,7 @@ void insert_urldata(URLDATA *urldata) {
 
 	while(!feof(fp))
 	{
-		fgets(s, 1000, fp);
-		char *ptr = strtok(s, " ");      // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
-			
-			strcpy(urldata[i].name, ptr);
-
-			ptr = strtok(NULL, " ");
-			strcpy(urldata[i].filename, ptr);
-
-			ptr = strtok(NULL, " ");
-			strcpy(urldata[i].url, ptr);
+		fscanf(fp, "%s %s %s", urldata[i].name, urldata[i].filename, urldata[i].url);
 
 			i++;
 	}
